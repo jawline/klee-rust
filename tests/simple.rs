@@ -30,7 +30,7 @@ fn another_test() {
     assert_eq!(b, 0);
 
     if b == 12 {
-      assert!("This path should be unreachable");
+      panic!("This path should be unreachable");
     }
 
     assert_eq!(b, 101);
