@@ -17,13 +17,13 @@ pub fn any(data: *const raw::c_void, length: usize, name: &str) {
 }
 
 pub fn i32(data: *const i32, name: &str) {
-  any(transmute(data), 4, name);
+  unsafe { any(transmute(data), 4, name); }
 }
 
 pub fn u32(data: *const u32, name: &str) {
-  any(transmute(data), 4, name);
+  unsafe { any(transmute(data), 4, name); }
 }
 
 pub fn str(data: &str, name: &str) {
-  any(transmute(data), data.len(), name);
+  unsafe { any(transmute(data), data.len(), name); }
 }
