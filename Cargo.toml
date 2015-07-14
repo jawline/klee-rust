@@ -4,5 +4,5 @@ name = "klee-rust"
 version = "0.0.1"
 authors = [ "Blake Loring <blake_l@parsed.uk>" ]
 
-[dependancies]
+[dependencies]
 libc = "*"
