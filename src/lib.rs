@@ -7,8 +7,12 @@ use std::mem::{transmute, size_of};
 #[link(name = "kleeRuntest")]
 extern {
     fn klee_make_symbolic(data: *const raw::c_void, length: libc::size_t, name: *const raw::c_char);
-    fn klee_warning_once(name: *const raw::c_char);
     fn klee_set_forking(state: bool);
+}
+
+#[link(name = "klee-libc")]
+extern {
+    fn klee_warning_once(name: *const raw::c_char);
 }
 
 pub unsafe fn any(data: *const raw::c_void, length: usize, name: &str) {
