@@ -24,6 +24,6 @@ pub fn i32(name: &str) -> i32 {
   result
 }
 
-pub fn make_sym<T>(data: &T, name: &str) {
+pub fn sym<T>(data: &T, name: &str) {
   unsafe{ any(transmute(data as *const T), size_of::<T>(), name); }
 }
