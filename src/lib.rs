@@ -36,3 +36,9 @@ pub fn i32(name: &str) -> i32 {
 pub fn symbol<T>(data: &T, name: &str) {
   unsafe{ any(transmute(data as *const T), size_of::<T>(), name); }
 }
+
+pub fn assert_warn(condition: bool, msg: &str) {
+  if condition {
+    warning(msg);
+  }
+}
