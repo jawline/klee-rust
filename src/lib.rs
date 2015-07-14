@@ -30,7 +30,7 @@ pub fn u32(data: *const u32, name: &str) {
   }
 }
 
-pub fn str(data: *const &str, name: &str) {
+pub fn str(data: &str, name: &str) {
   let name_cstr = CString::new(name).unwrap();
   unsafe {
     klee_make_symbolic(transmute(data), data.len(), name_cstr.as_ptr());
