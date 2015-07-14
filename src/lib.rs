@@ -1,11 +1,11 @@
-use std::libc;
+extern crate libc;
 
 use std::ffi::CString;
 use std::mem::transmute;
 
 #[link(name = "rust")]
 extern {
-  fn klee_make_symbolic(data: *const libc::c_void, length: usize, name: *const libc::c_char);
+  fn klee_make_symbolic(data: *const libc::c_void, length: libc::size_t, name: *const libc::c_char);
 }
 
 pub fn any(data: *const libc::c_void, length: usize, name: &str) {
