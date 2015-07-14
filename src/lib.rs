@@ -9,7 +9,7 @@ extern {
   fn klee_make_symbolic(data: *const raw::c_void, length: libc::size_t, name: *const raw::c_char);
   fn klee_int(name: *const raw::c_char) -> raw::c_int;
   fn klee_warning(name: *const raw::c_char);
-  fn klee_warning_one(name: *const raw::c_char);
+  fn klee_warning_once(name: *const raw::c_char);
   fn klee_set_forking(state: bool);
 }
 
