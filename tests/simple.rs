@@ -1,4 +1,4 @@
-use klee;
+extern crate klee;
 
 #[test]
 fn basic_test() {
