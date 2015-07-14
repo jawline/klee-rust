@@ -6,7 +6,7 @@ use std::mem::transmute;
 
 #[link(name = "rust")]
 extern {
-  fn klee_make_symbolic(data: *const raw::c_void, length: raw::size_t, name: *const raw::c_char);
+  fn klee_make_symbolic(data: *const raw::c_void, length: libc::size_t, name: *const raw::c_char);
 }
 
 pub fn any(data: *const raw::c_void, length: usize, name: &str) {
