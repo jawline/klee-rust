@@ -17,7 +17,7 @@ fn other_test() {
   
   if a == 50 {
     if b == 49 {
-      klee::warning("this path is reachable");
+      klee::warning_once("this path is reachable");
     }
   }
 }
@@ -30,7 +30,7 @@ fn another_test() {
     klee::assert_warn(b == 0, "this assertion should not trigger");
 
     if b == 12 {
-      klee::warning("This path should be unreachable");
+      klee::warning_once("This path should be unreachable");
     }
 
     klee::assert_warn(b == 101, "this assertion should trigger");
