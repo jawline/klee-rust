@@ -11,9 +11,7 @@ extern {
 
 pub fn any(data: *const raw::c_void, length: usize, name: &str) {
   let name_cstr = CString::new(name).unwrap();
-  unsafe {
-    klee_make_symbolic(data, length as libc::size_t, name_cstr.as_ptr());
-  }
+  klee_make_symbolic(data, length as libc::size_t, name_cstr.as_ptr());
 }
 
 pub fn i32(data: *const i32, name: &str) {
