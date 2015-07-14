@@ -30,7 +30,7 @@ pub fn set_forking(state: bool) {
 }
 
 pub fn i32(name: &str) -> i32 {
-  unsafe { klee_int(CString::new(name).unwrap().as_ptr()) }
+  unsafe { klee_int(CString::new(name).unwrap().as_ptr()) } as i32
 }
 
 pub fn symbol<T>(data: &T, name: &str) {
