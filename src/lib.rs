@@ -8,18 +8,21 @@ use std::mem::{transmute, size_of};
 extern {
   fn klee_make_symbolic(data: *const raw::c_void, length: libc::size_t, name: *const raw::c_char);
   fn klee_int(name: *const raw::c_char) -> raw::c_int;
+  fn klee_warning(name: *const raw::c_char);
 }
 
 pub unsafe fn any(data: *const raw::c_void, length: usize, name: &str) {
-  let name_cstr = CString::new(name).unwrap();
-  klee_make_symbolic(data, length as libc::size_t, name_cstr.as_ptr());
+  klee_make_symbolic(data, length as libc::size_t, CString::new(name).unwrap().as_ptr());
+}
+
+pub fn warning(name: &str) {
+  unsafe { klee_warning(CString::new(name).unwrap().as_ptr()); }
 }
 
 pub fn i32(name: &str) -> i32 {
   let result;
-  let name_cstr = CString::new(name).unwrap();
   unsafe {
-    result = klee_int(name_cstr.as_ptr());
+    result = klee_int(CString::new(name).unwrap().as_ptr());
   }
   result
 }
