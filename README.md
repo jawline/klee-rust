@@ -1,2 +1,6 @@
 # klee-rust
-A interface for KLEE on the Rust language
+A interface for using KLEE and Rust together
+
+#Dependancies
+- Rust 1.1
+- KLEE
