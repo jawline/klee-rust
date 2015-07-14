@@ -1,4 +1,4 @@
-extern crate libc;
+use std::libc;
 
 use std::ffi::CString;
 use std::mem::transmute;
