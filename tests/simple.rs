@@ -17,7 +17,7 @@ fn other_test() {
   
   if a == 50 {
     if b == 49 {
-      assert!("bugger");
+      panic!("bugger");
     }
   }
 }
