@@ -2,7 +2,7 @@ extern crate klee;
 
 #[test]
 fn basic_test() {
-  let mut a : i32;
+  let mut a : i32 = 0;
   klee::symbol(&a, "a");
   assert_eq!(a, 56);
 }
