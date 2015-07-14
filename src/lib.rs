@@ -10,7 +10,7 @@ extern {
   fn klee_int(name: *const raw::c_char) -> raw::c_int;
   fn klee_warning(name: *const raw::c_char);
   fn klee_warning_one(name: *const raw::c_char);
-  fn klee_set_forking(state: raw::c_bool);
+  fn klee_set_forking(state: libc::c_bool);
 }
 
 pub unsafe fn any(data: *const raw::c_void, length: usize, name: &str) {
