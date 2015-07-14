@@ -24,7 +24,7 @@ fn other_test() {
 
 #[test]
 fn another_test() {
-  let a = klee::i32();
+  let a = klee::i32("a");
   if a > 60 && a < 90 {
     let b = a + 40;
     klee::assert_warn(b == 0, "this assertion should not trigger");
