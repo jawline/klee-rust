@@ -9,7 +9,7 @@ extern {
   fn klee_make_symbolic(data: *const raw::c_void, length: libc::size_t, name: *const raw::c_char);
 }
 
-pub fn any(data: *const raw::c_void, length: usize, name: &str) {
+pub unsafe fn any(data: *const raw::c_void, length: usize, name: &str) {
   let name_cstr = CString::new(name).unwrap();
   klee_make_symbolic(data, length as libc::size_t, name_cstr.as_ptr());
 }
