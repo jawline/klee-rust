@@ -17,22 +17,13 @@ pub fn any(data: *const raw::c_void, length: usize, name: &str) {
 }
 
 pub fn i32(data: *const i32, name: &str) {
-  let name_cstr = CString::new(name).unwrap();
-  unsafe {
-    klee_make_symbolic(transmute(data), 4, name_cstr.as_ptr());
-  }
+  any(transmute(data), 4, name);
 }
 
 pub fn u32(data: *const u32, name: &str) {
-  let name_cstr = CString::new(name).unwrap();
-  unsafe {
-    klee_make_symbolic(transmute(data), 4, name_cstr.as_ptr());
-  }
+  any(transmute(data), 4, name);
 }
 
 pub fn str(data: &str, name: &str) {
-  let name_cstr = CString::new(name).unwrap();
-  unsafe {
-    klee_make_symbolic(transmute(data), data.len(), name_cstr.as_ptr());
-  }
+  any(transmute(data), data.len(), name);
 }
