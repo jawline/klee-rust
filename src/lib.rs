@@ -1,17 +1,18 @@
 extern crate libc;
 
+use std::os::raw;
 use std::ffi::CString;
 use std::mem::transmute;
 
 #[link(name = "rust")]
 extern {
-  fn klee_make_symbolic(data: *const libc::c_void, length: libc::size_t, name: *const libc::c_char);
+  fn klee_make_symbolic(data: *const raw::c_void, length: raw::size_t, name: *const raw::c_char);
 }
 
-pub fn any(data: *const libc::c_void, length: usize, name: &str) {
+pub fn any(data: *const raw::c_void, length: usize, name: &str) {
   let name_cstr = CString::new(name).unwrap();
   unsafe {
-    klee_make_symbolic(data, length as libc::size_t, name_cstr.as_ptr());
+    klee_make_symbolic(data, length as raw::size_t, name_cstr.as_ptr());
   }
 }
 
