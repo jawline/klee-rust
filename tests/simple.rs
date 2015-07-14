@@ -1,2 +1,3 @@
-test!(basic_test {
-});
+#[test]
+fn basic_test() {
+}
