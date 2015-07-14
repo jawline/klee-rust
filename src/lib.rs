@@ -1,7 +1,7 @@
 extern crate libc;
 
 use std::ffi::CString;
-use std::memory::transmute;
+use std::mem::transmute;
 
 #[link(name = "rust")]
 extern {
