@@ -29,3 +29,10 @@ pub fn u32(data: *const u32, name: &str) {
     klee_make_symbolic(transmute(data), 4, name_cstr.as_ptr());
   }
 }
+
+pub fn str(data: *const &str, name: &str) {
+  let name_cstr = CString::new(name).unwrap();
+  unsafe {
+    klee_make_symbolic(transmute(data), data.len(), name_cstr.as_ptr());
+  }
+}
