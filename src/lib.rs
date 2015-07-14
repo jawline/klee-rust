@@ -2,7 +2,7 @@ extern crate libc;
 
 use std::os::raw;
 use std::ffi::CString;
-use std::mem::transmute;
+use std::mem::{transmute, size_of};
 
 #[link(name = "rust")]
 extern {
@@ -17,11 +17,19 @@ pub fn any(data: *const raw::c_void, length: usize, name: &str) {
 }
 
 pub fn i32(data: *const i32, name: &str) {
-  unsafe { any(transmute(data), 4, name); }
+  unsafe { any(transmute(data), std::mem::sizeof::<i32>(), name); }
 }
 
 pub fn u32(data: *const u32, name: &str) {
-  unsafe { any(transmute(data), 4, name); }
+  unsafe { any(transmute(data), std::mem::sizeof::<u32>(), name); }
+}
+
+pub fn i64(data: *const i64, name: &str) {
+  unsafe { any(transmute(data), std::mem::sizeof::<i64>(), name); }
+}
+
+pub fn u64(data: *const u64, name: &str) {
+  unsafe { any(transmute(data), std::mem::sizeof::<u64>(), name); }
 }
 
 pub fn str(data: &str, name: &str) {
