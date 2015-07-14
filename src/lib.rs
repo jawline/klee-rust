@@ -33,6 +33,12 @@ pub fn i32(name: &str) -> i32 {
   unsafe { klee_int(CString::new(name).unwrap().as_ptr()) }
 }
 
+pub fn bool(name: &str) ->bool {
+  let res = false;
+  symbol(&res, name);
+  return res;
+}
+
 pub fn symbol<T>(data: &T, name: &str) {
   unsafe{ any(transmute(data as *const T), size_of::<T>(), name); }
 }
