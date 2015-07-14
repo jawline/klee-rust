@@ -41,6 +41,6 @@ pub fn symbol<T>(data: &T, name: &str) {
 
 pub fn assert_warn(condition: bool, msg: &str) {
     if condition {
-        warning(msg);
+        warning_once(msg);
     }
 }
