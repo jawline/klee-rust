@@ -7,8 +7,6 @@ use std::mem::{transmute, size_of};
 #[link(name = "kleeRuntest")]
 extern {
     fn klee_make_symbolic(data: *const raw::c_void, length: libc::size_t, name: *const raw::c_char);
-    fn klee_int(name: *const raw::c_char) -> raw::c_int;
-    fn klee_warning(name: *const raw::c_char);
     fn klee_warning_once(name: *const raw::c_char);
     fn klee_set_forking(state: bool);
 }
@@ -17,11 +15,7 @@ pub unsafe fn any(data: *const raw::c_void, length: usize, name: &str) {
     klee_make_symbolic(data, length as libc::size_t, CString::new(name).unwrap().as_ptr());
 }
 
-pub fn warning(name: &str) {
-    unsafe { klee_warning(CString::new(name).unwrap().as_ptr()); }
-}
-
-pub fn warning_one(name: &str) {
+pub fn warning_once(name: &str) {
     unsafe { klee_warning_once(CString::new(name).unwrap().as_ptr()); }
 }
 
@@ -30,11 +24,13 @@ pub fn set_forking(state: bool) {
 }
 
 pub fn i32(name: &str) -> i32 {
-    unsafe { klee_int(CString::new(name).unwrap().as_ptr()) }
+    let res : i32 = 0;
+    symbol(&res, name);
+    return res;
 }
 
 pub fn bool(name: &str) ->bool {
-    let res = false;
+    let res : bool = false;
     symbol(&res, name);
     return res;
 }
