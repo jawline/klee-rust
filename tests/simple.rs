@@ -9,8 +9,8 @@ fn basic_test() {
 
 #[test]
 fn other_test() {
-  let mut a : i32;
-  let mut b : i32;
+  let mut a : i32 = 0;
+  let mut b : i32 = 0;
   
   klee::symbol(&a, "a");
   klee::symbol(&b, "b");
