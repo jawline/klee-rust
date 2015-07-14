@@ -15,16 +15,16 @@ pub fn any(data: *const libc::c_void, length: usize, name: &str) {
   }
 }
 
-pub fn i32(data: *const i32, length: usize, name: &str) {
+pub fn i32(data: *const i32, name: &str) {
   let name_cstr = CString::new(name).unwrap();
   unsafe {
-    klee_make_symbolic(transmute(data), length, name_cstr.as_ptr());
+    klee_make_symbolic(transmute(data), 4, name_cstr.as_ptr());
   }
 }
 
-pub fn u32(data: *const u32, length: usize, name: &str) {
+pub fn u32(data: *const u32, name: &str) {
   let name_cstr = CString::new(name).unwrap();
   unsafe {
-    klee_make_symbolic(transmute(data), length, name_cstr.as_ptr());
+    klee_make_symbolic(transmute(data), 4, name_cstr.as_ptr());
   }
 }
