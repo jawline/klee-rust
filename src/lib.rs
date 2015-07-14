@@ -9,6 +9,7 @@ extern {
   fn klee_make_symbolic(data: *const raw::c_void, length: libc::size_t, name: *const raw::c_char);
   fn klee_int(name: *const raw::c_char) -> raw::c_int;
   fn klee_warning(name: *const raw::c_char);
+  fn klee_warning_one(name: *const raw::c_char);
 }
 
 pub unsafe fn any(data: *const raw::c_void, length: usize, name: &str) {
@@ -17,6 +18,10 @@ pub unsafe fn any(data: *const raw::c_void, length: usize, name: &str) {
 
 pub fn warning(name: &str) {
   unsafe { klee_warning(CString::new(name).unwrap().as_ptr()); }
+}
+
+pub fn warning_one(name: &str) {
+  unsafe { klee_warning_once(CString::new(name).unwrap().as_ptr()); }
 }
 
 pub fn i32(name: &str) -> i32 {
