@@ -4,7 +4,7 @@ use std::os::raw;
 use std::ffi::CString;
 use std::mem::{transmute, size_of};
 
-#[link(name = "klee-libc")]
+#[link(name = "kleeRuntest")]
 extern {
     fn klee_make_symbolic(data: *const raw::c_void, length: libc::size_t, name: *const raw::c_char);
     fn klee_int(name: *const raw::c_char) -> raw::c_int;
