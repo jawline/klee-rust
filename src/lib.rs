@@ -19,7 +19,7 @@ pub fn new_i32(name: &str) -> i32 {
   let result;
   let name_cstr = CString::new(name).unwrap();
   unsafe {
-    result = klee_int(name_cstr);
+    result = klee_int(name_cstr.as_ptr());
   }
   result
 }
