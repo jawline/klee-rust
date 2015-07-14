@@ -7,11 +7,21 @@ use std::mem::{transmute, size_of};
 #[link(name = "klee")]
 extern {
   fn klee_make_symbolic(data: *const raw::c_void, length: libc::size_t, name: *const raw::c_char);
+  fn klee_int(name: *const raw::c_char) -> raw::c_int;
 }
 
 pub unsafe fn any(data: *const raw::c_void, length: usize, name: &str) {
   let name_cstr = CString::new(name).unwrap();
   klee_make_symbolic(data, length as libc::size_t, name_cstr.as_ptr());
+}
+
+pub fn new_i32(name: &str) -> i32 {
+  let result;
+  let name_cstr = CString::new(name).unwrap();
+  unsafe {
+    result = klee_int(name_cstr);
+  }
+  result
 }
 
 pub fn i32(data: *const i32, name: &str) {
