@@ -24,6 +24,6 @@ pub fn u32(data: *const u32, name: &str) {
   unsafe { any(transmute(data), 4, name); }
 }
 
-pub fn str(data: *const &str, name: &str) {
+pub fn str(data: *const [u8], name: &str) {
   unsafe { any(transmute(data), data.len(), name); }
 }
