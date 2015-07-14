@@ -10,7 +10,7 @@ extern {
   fn klee_int(name: *const raw::c_char) -> raw::c_int;
   fn klee_warning(name: *const raw::c_char);
   fn klee_warning_one(name: *const raw::c_char);
-  fn klee_set_forking(state: libc::c_bool);
+  fn klee_set_forking(state: bool);
 }
 
 pub unsafe fn any(data: *const raw::c_void, length: usize, name: &str) {
@@ -26,7 +26,7 @@ pub fn warning_one(name: &str) {
 }
 
 pub fn set_forking(state: bool) {
-  unsafe { klee_set_forking(state as raw::c_bool); }
+  unsafe { klee_set_forking(state); }
 }
 
 pub fn i32(name: &str) -> i32 {
