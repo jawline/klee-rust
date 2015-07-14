@@ -1,3 +1,5 @@
+use klee;
+
 #[test]
 fn basic_test() {
   let mut a : i32;
