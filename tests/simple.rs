@@ -34,6 +34,6 @@ fn another_test() {
     }
 
     klee::assert_warn(b == 101, "this assertion should trigger");
-    klee::assert_warn(b == 150000, "this assertsion should not trigger");
+    klee::assert_warn(b == 150000, "this assersion should not trigger");
   }
 }
