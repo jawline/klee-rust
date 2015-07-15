@@ -26,6 +26,7 @@ fn other_test() {
 fn yant() {
   let a = klee::bool("a");
   let b = klee::int("b");
+  
   let c = if a {
     if b > 50 && b < 100 {
       true
@@ -34,7 +35,7 @@ fn yant() {
     }
   } else {
     true
-  }
+  };
   
   assert_eq!(c, false);
 }
