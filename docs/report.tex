@@ -1,0 +1,124 @@
+\documentclass{report}
+
+\begin{document}
+
+\usepackage{listings}
+
+\title{Symbolic Executution in Rust}
+\author{Blake Loring}
+\date{\today}
+
+\maketitle
+
+\chapter {Introduction}
+
+The Rust programming language is a recent programming language being developed by Mozilla. The language has been designed with a heavy emphasis on security and reliability, attempting to guarentee memory safety and reduce the number of common issues/vulnerabilities which appear in other languages through strict compile time rules.
+
+\chapter {Technologies}
+
+The Rust programming language compiles to a intermediate format known as LLVM bitcode.
+
+LLVM is an open source project which defines a clear set of interfaces and specifications and provides a set of tools for program compilation and execution. LLVM bitcore is part of that project, acting as a universal intermediate code format which any compiler can generate as output to leverage the wide variety of tools which target LLVM.
+
+One of the tools developed to operate on LLVM IR is the KLEE (https://klee.github.io/). KLEE is a tool which interprets and symbolically executes code in the LLVM intermediate format. By leveraging KLEE there is no need for a Rust specific symbolic interpretter.
+
+\chapter {Bindings}
+
+In order to mark a piece of memory as symbolic at runtime KLEE exposes several methods through a C API. In order to mark a value as symbolic in Rust these bindings needed be exposed, to do this I used Rust's foreign function interface (FFI). The foreign function interface allows a developer to expose functions written in other languages outside of the codebase which will be linked with the project later.
+
+The main method I needed to expose to Rust was void klee_make_symbolic which has the signature
+\begin{lstlisting}
+void klee_make_symbolic	(void* addr, unsigned nbytes, const char* name)
+\end{lstlisting}
+
+To expose this method I used Rust's libc library to define a function in Rust with an equivilent signature inside an extern block.
+
+\begin{lstlisting}
+#[link(name = "kleeRuntest")]
+extern {
+    fn klee_make_symbolic(data: *const raw::c_void, length: libc::size_t, name: *const raw::c_char);
+}
+\end{lstlisting}
+
+Once the methods where exposed I could begin to write simplified bindings in Rust.
+
+The first function just passes a memory location and length to KLEE to be marked as symbolic. This function is unsafe, and takes a pointer to *const libc::c_void, allowing any type to be passed to it.
+
+An example of using it would be
+\begin {lstlisting}
+let my_mem : i32 = 54;
+unsafe { klee::any(std::mem::transmute(&my_mem), 4, "my_mem"); }
+\end{lstlisting}
+
+Implementation:
+\begin {lstlisting}
+pub unsafe fn any(data: *const raw::c_void, length: usize, name: &str) {
+    klee_make_symbolic(data, length as libc::size_t, CString::new(name).unwrap().as_ptr());
+}
+\end{lstlisting}
+
+This allows for any piece of memory to be made symbolic in Rust at runtime, however it is difficult to use and could easily be used incorrectly causing runtime issues. The difficulty lead to me attempting to improve it with some helper methods.
+
+Rust supports generic functions. Generic methods can be allowed to take in data of any type, allowing a developer to write a single method for multiple functions which all share common features (For example a add function could be generic and accept all numeric types, rather than an add function for each different type).
+
+By utalizing Rust generics I created the function symbol, which takes a reference to any object and will make it symbolic. This allowed me to provide a simpler interface for creating symbols.
+
+In practice it allows a user to create a symbol in the following way
+
+\begin {lstlisting}
+let a = 6423;
+
+klee::symbol(&a, "a");
+
+if a > 60 {
+	if a < 30 {
+		panic!("I should be unreachable");
+	} else {
+		panic!("I should be reachable");
+	}
+}
+\end {lstlisting}
+
+and should work for any structure which the size_of operator works on.
+
+Implementation:
+\begin {lstlisting}
+pub fn symbol<T>(data: &T, name: &str) {
+    unsafe{ any(transmute(data as *const T), size_of::<T>(), name); }
+}
+\end {lstlisting}
+
+Finally, extending on the above symbol function I created a function which which could create a new symbol of any type which implements the Default trait (including all primitives) called some. This allows for primitive types and types which implement Default have symbols created really easily.
+
+Example:
+\begin{lstlisting}
+let a = klee::some::<i32>();
+let b = klee::some::<bool>();
+let mut c = false;
+
+if b {
+	if a > 60 && a < 80 {
+		c = true;
+	}
+}
+
+if c && a > 90 {
+	panic!("This code should be unreachable");
+}
+\end{lstlisting}
+
+Implementation:
+\begin{lstlisting}
+pub fn some<T: Default>(name: &str) -> T {
+    let new_symbol = T::default();
+    symbol(&new_symbol, name);
+    return new_symbol;
+}
+\end{lstlisting}
+
+These Rust bindings allow for a simple way to setup a basic testing environment.
+\chapter {Project Setup}
+\chapter {Testing}
+\chapter {Extension}
+\chapter {Conclusion}
+\end{document}
