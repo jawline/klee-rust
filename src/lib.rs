@@ -3,6 +3,7 @@ extern crate libc;
 use std::os::raw;
 use std::ffi::CString;
 use std::mem::{transmute, size_of};
+use std::default::Default;
 
 #[link(name = "kleeRuntest")]
 extern {
