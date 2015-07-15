@@ -18,8 +18,8 @@ pub fn set_forking(state: bool) {
     unsafe { klee_set_forking(state); }
 }
 
-pub fn some<T>(data: T, name: &str) {
-    let new_symbol = T;
+pub fn some<T>(initial: T, name: &str) {
+    let new_symbol = initial;
     symbol(&new_symbol, name);
     return new_symbol;
 }
