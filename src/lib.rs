@@ -25,6 +25,6 @@ pub fn some<T: Default>(name: &str) -> T {
     return new_symbol;
 }
 
-pub fn symbol<T>(data: &T, name: &str) {
-    unsafe{ any(transmute(data as *const T), size_of::<T>(), name); }
+pub fn symbol<T>(data: *const T, name: &str) {
+    unsafe{ any(transmute(data), size_of::<T>(), name); }
 }
