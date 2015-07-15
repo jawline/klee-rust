@@ -18,16 +18,10 @@ pub fn set_forking(state: bool) {
     unsafe { klee_set_forking(state); }
 }
 
-pub fn i32(name: &str) -> i32 {
-    let res : i32 = 0;
-    symbol(&res, name);
-    return res;
-}
-
-pub fn bool(name: &str) ->bool {
-    let res : bool = false;
-    symbol(&res, name);
-    return res;
+pub fn some<T>(data: T, name: &str) {
+    let new_symbol = T;
+    symbol(&new_symbol, name);
+    return new_symbol;
 }
 
 pub fn symbol<T>(data: &T, name: &str) {
