@@ -20,7 +20,7 @@ pub fn set_forking(state: bool) {
 }
 
 pub fn some<T: Default>(name: &str) -> T {
-    let new_symbol : T = T::default();
+    let new_symbol = T::default();
     symbol(&new_symbol, name);
     return new_symbol;
 }
