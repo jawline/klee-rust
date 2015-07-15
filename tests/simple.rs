@@ -24,8 +24,8 @@ fn other_test() {
 
 #[test]
 fn yant() {
-  let a = klee::bool("a");
-  let b = klee::i32("b");
+  let a = klee::some::<bool>(false, "a");
+  let b = klee::some::<i32>(0, "b");
   
   let c = if a {
     if b > 50 && b < 100 {
@@ -42,7 +42,8 @@ fn yant() {
 
 #[test]
 fn another_test() {
-  let a = klee::i32("a");
+  let a = klee::some::<i32>(0, "a");
+
   if a > 60 && a < 90 {
     let b = a + 40;
     assert_eq!(b, 0);
