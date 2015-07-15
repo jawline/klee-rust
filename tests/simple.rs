@@ -23,6 +23,23 @@ fn other_test() {
 }
 
 #[test]
+fn yant() {
+  let a = klee::bool("a");
+  let b = klee::int("b");
+  let c = if a {
+    if b > 50 && b < 100 {
+      true
+    } else {
+      false
+    }
+  } else {
+    true
+  }
+  
+  assert_eq!(c, false);
+}
+
+#[test]
 fn another_test() {
   let a = klee::i32("a");
   if a > 60 && a < 90 {
