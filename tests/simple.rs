@@ -15,10 +15,8 @@ fn other_test() {
   klee::symbol(&a, "a");
   klee::symbol(&b, "b");
   
-  if a == 50 {
-    if b == 49 {
-      panic!("bugger");
-    }
+  if a == 50 && b == 50 {
+    panic!("I should happen!");
   }
 }
 
