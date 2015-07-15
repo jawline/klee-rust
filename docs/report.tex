@@ -14,7 +14,9 @@
 
 The Rust programming language is a recent programming language being developed by Mozilla. The language has been designed with a heavy emphasis on security and reliability, attempting to guarentee memory safety and reduce the number of common issues/vulnerabilities which appear in other languages through strict compile time rules.
 
-Symbolic execution is a technique for verifying the security and reliability of a program by running it with a set of variables replaced with symbolic values instead of concrete values.
+Symbolic execution is a technique for verifying the security and reliability of a program by running it with a set of variables replaced with symbolic values instead of concrete values. The motivation for symbolic execution is it allows you to test a program or function for all possible combinations of specified variables and expose potential bugs.
+
+As the Rust language attempts to guarentee memory safety at compile time (excluding when it calls into C, and any code in unsafe blocks) symbolic execution to expose buffer overflows or other common errors is less useful then in a language like C, however it could still be used to verify the integrity of progra
 
 \chapter {Technologies}
 
