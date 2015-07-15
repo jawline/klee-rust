@@ -3,7 +3,7 @@ extern crate klee;
 #[test]
 fn basic_test() {
   let a : i32 = 0;
-  klee::symbol(&a, "a");
+  klee::symbol(&mut a, "a");
   assert_eq!(a, 56);
 }
 
@@ -12,8 +12,8 @@ fn other_test() {
   let a : i32 = 0;
   let b : i32 = 0;
   
-  klee::symbol(&a, "a");
-  klee::symbol(&b, "b");
+  klee::symbol(&mut a, "a");
+  klee::symbol(&mut b, "b");
   
   if a == 50 && b == 50 {
     panic!("I should happen!");
