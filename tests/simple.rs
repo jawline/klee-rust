@@ -25,7 +25,7 @@ fn other_test() {
 #[test]
 fn yant() {
   let a = klee::bool("a");
-  let b = klee::int("b");
+  let b = klee::i32("b");
   
   let c = if a {
     if b > 50 && b < 100 {
