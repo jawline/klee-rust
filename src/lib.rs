@@ -19,7 +19,7 @@ pub fn set_forking(state: bool) {
     unsafe { klee_set_forking(state); }
 }
 
-pub fn some<T>(name: &str) -> T {
+pub fn some<T: Default>(name: &str) -> T {
     let new_symbol : T = T::default();
     symbol(&new_symbol, name);
     return new_symbol;
