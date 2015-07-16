@@ -88,17 +88,16 @@ if a > 60 {
 		panic!("I should be reachable");
 	}
 }
-\end {lstlisting}
+\end{lstlisting}
 
-and should work for any structure which the size_of operator works on.
+and should work for any structure which the size\_of operator works on.
 
 Implementation:
-
 \begin {lstlisting}
 pub fn symbol<T>(data: &T, name: &str) {
     unsafe{ any(transmute(data as *mut T), size_of::<T>(), name); }
 }
-\end {lstlisting}
+\end{lstlisting}
 
 Finally, extending on the above symbol function I created a function which which could create a new symbol of any type which implements the Default trait (including all primitives) called some. This allows for primitive types and types which implement Default have symbols created really easily.
 
