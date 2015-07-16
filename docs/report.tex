@@ -124,7 +124,20 @@ These Rust bindings allow for a simple way to setup a basic testing environment.
 
 \chapter {Matching LLVM version}
 
+
+
 \chapter {Project Setup}
+
+To create a project to test the bindings I created a new Rust project with the command
+\begin{lstlisting}
+cargo new klee-used --bin
+\end{lstlisting}
+
+and then added the following lines to it's Cargo.toml file
+\begin{lstlisting}
+[dependencies.klee]
+path=PATH_TO_KLEE_BINDING
+\end{lstlisting}
 
 \chapter {Testing}
 \chapter {Extension}
