@@ -20,11 +20,11 @@ As the Rust language attempts to guarentee memory safety at compile time (exclud
 
 \chapter {Technologies}
 
-The Rust programming language compiles to a intermediate format known as LLVM bitcode.
+The Rust programming language compiles to a intermediate format known as LLVM bitcode (LLVM BC).
 
-LLVM is an open source project which defines a clear set of interfaces and specifications and provides a set of tools for program compilation and execution. LLVM bitcode is part of that project, acting as a universal intermediate code format which any compiler can generate as output to leverage the wide variety of tools which target LLVM.
+LLVM is an open source project which defines a clear set of interfaces and specifications and provides a set of tools for program compilation and execution. LLVM BC is part of that project, acting as a universal intermediate code format which any compiler can generate as output to leverage the wide variety of tools which target LLVM.
 
-One of the tools developed to operate on LLVM bitcode is the KLEE (https://klee.github.io/). KLEE is a tool which interprets and symbolically executes code in the LLVM intermediate format. By leveraging KLEE there is no need for a Rust specific symbolic interpretter.
+One of the tools developed to operate on LLVM BC is the KLEE (https://klee.github.io/). KLEE is a tool which interprets and symbolically executes code in the LLVM intermediate format. By leveraging KLEE there is no need for a Rust specific symbolic interpretter.
 
 \chapter {Bindings}
 
@@ -123,11 +123,11 @@ pub fn some<T: Default>(name: &str) -> T {
 These Rust bindings allow for a simple way to setup a basic testing environment.
 
 \chapter {Matching LLVM version}
-
-
 \chapter {Testing}
-\subsection {Project Setup}
 
+To test the KLEE bindings on Rust a test project had to be created and compiled into LLVM BC which can be interpretted by KLEE.
+
+\subsection {Project Setup}
 To create a project to test the bindings I created a new Rust project with the command
 \begin{lstlisting}
 cargo new klee-used --bin
