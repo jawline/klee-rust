@@ -22,9 +22,9 @@ As the Rust language attempts to guarentee memory safety at compile time (exclud
 
 The Rust programming language compiles to a intermediate format known as LLVM bitcode.
 
-LLVM is an open source project which defines a clear set of interfaces and specifications and provides a set of tools for program compilation and execution. LLVM bitcore is part of that project, acting as a universal intermediate code format which any compiler can generate as output to leverage the wide variety of tools which target LLVM.
+LLVM is an open source project which defines a clear set of interfaces and specifications and provides a set of tools for program compilation and execution. LLVM bitcode is part of that project, acting as a universal intermediate code format which any compiler can generate as output to leverage the wide variety of tools which target LLVM.
 
-One of the tools developed to operate on LLVM IR is the KLEE (https://klee.github.io/). KLEE is a tool which interprets and symbolically executes code in the LLVM intermediate format. By leveraging KLEE there is no need for a Rust specific symbolic interpretter.
+One of the tools developed to operate on LLVM bitcode is the KLEE (https://klee.github.io/). KLEE is a tool which interprets and symbolically executes code in the LLVM intermediate format. By leveraging KLEE there is no need for a Rust specific symbolic interpretter.
 
 \chapter {Bindings}
 
@@ -125,8 +125,8 @@ These Rust bindings allow for a simple way to setup a basic testing environment.
 \chapter {Matching LLVM version}
 
 
-
-\chapter {Project Setup}
+\chapter {Testing}
+\subsection {Project Setup}
 
 To create a project to test the bindings I created a new Rust project with the command
 \begin{lstlisting}
@@ -139,7 +139,23 @@ and then added the following lines to it's Cargo.toml file
 path=PATH_TO_KLEE_BINDING
 \end{lstlisting}
 
-\chapter {Testing}
-\chapter {Extension}
+I then modified the created main.rs so that it created a few symbolic values - leaving me with
+\begin{lstlisting}
+extern crate klee;
+
+pub fn main() {
+    let a = klee::some::<i32>();
+    let b = klee::some::<bool>();
+    if a > 50 && b {
+    	panic!("Hello World");
+    }
+}
+\end{lstlisting}
+
+\subsection {Compiling to LLVM BC}
+
 \chapter {Conclusion}
+
+\chapter {Extension}
+
 \end{document}
