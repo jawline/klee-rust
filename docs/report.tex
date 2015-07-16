@@ -1,8 +1,8 @@
 \documentclass{report}
+\usepackage{listings}
+\usepackage[parfill]{parskip}
 
 \begin{document}
-
-\usepackage{listings}
 
 \title{Symbolic Executution in Rust using KLEE}
 \author{Blake Loring}
@@ -30,9 +30,11 @@ One of the tools developed to operate on LLVM BC is the KLEE (https://klee.githu
 
 In order to mark a piece of memory as symbolic at runtime KLEE exposes several methods through a C API. In order to mark a value as symbolic in Rust these bindings needed be exposed, to do this I used Rust's foreign function interface (FFI). The foreign function interface allows a developer to expose functions written in other languages outside of the codebase which will be linked with the project later.
 
-The main method I needed to expose to Rust was void klee_make_symbolic which has the signature
+The main method I needed to expose to Rust was void klee\_make\_symbolic which has the signature
 \begin{lstlisting}
-void klee_make_symbolic	(void* addr, unsigned nbytes, const char* name)
+void klee_make_symbolic	(void* addr,
+	unsigned nbytes,
+	const char* name)
 \end{lstlisting}
 
 To expose this method I used Rust's libc library to define a function in Rust with an equivilent signature inside an extern block.
@@ -40,13 +42,15 @@ To expose this method I used Rust's libc library to define a function in Rust wi
 \begin{lstlisting}
 #[link(name = "kleeRuntest")]
 extern {
-    fn klee_make_symbolic(data: *const raw::c_void, length: libc::size_t, name: *const raw::c_char);
+    fn klee_make_symbolic(data: *mut raw::c_void,
+    	length: libc::size_t,
+	name: *const raw::c_char);
 }
 \end{lstlisting}
 
 Once the methods where exposed I could begin to write simplified bindings in Rust.
 
-The first function just passes a memory location and length to KLEE to be marked as symbolic. This function is unsafe, and takes a pointer to *const libc::c_void, allowing any type to be passed to it.
+The first function just passes a memory location and length to KLEE to be marked as symbolic. This function is unsafe, and takes a pointer to *mut libc::c\_void, allowing any type to be passed to it.
 
 An example of using it would be
 \begin {lstlisting}
@@ -56,8 +60,11 @@ unsafe { klee::any(std::mem::transmute(&my_mem), 4, "my_mem"); }
 
 Implementation:
 \begin {lstlisting}
-pub unsafe fn any(data: *const raw::c_void, length: usize, name: &str) {
-    klee_make_symbolic(data, length as libc::size_t, CString::new(name).unwrap().as_ptr());
+pub unsafe fn any(data: *mut raw::c_void,
+	length: usize, name: &str) {
+    klee_make_symbolic(data,
+    	length as libc::size_t,
+	CString::new(name).unwrap().as_ptr());
 }
 \end{lstlisting}
 
@@ -86,9 +93,10 @@ if a > 60 {
 and should work for any structure which the size_of operator works on.
 
 Implementation:
+
 \begin {lstlisting}
 pub fn symbol<T>(data: &T, name: &str) {
-    unsafe{ any(transmute(data as *const T), size_of::<T>(), name); }
+    unsafe{ any(transmute(data as *mut T), size_of::<T>(), name); }
 }
 \end {lstlisting}
 
