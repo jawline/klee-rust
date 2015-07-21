@@ -163,9 +163,9 @@ pub fn main() {
 
 While rustc compiles using the LLVM framework it does not, by default, emit LLVM BC which can be given to KLEE.
 
-Getting cargo (Rust's build tool) to emit LLVM BC currently is a challenge as it does not expose rustc flags to the developer. While there are RFC's on the Rust repository and several forks of cargo that expose this I decided instead to take the rustc command which Cargo invokes (exposed by cargo clean && cargo build --verbose) and execute it myself.
+Getting cargo (Rust's build tool) to emit LLVM BC currently is a challenge as it does not expose rustc flags to the developer. While there are RFC's on the Rust repository and several forks of cargo that expose this I decided instead to take the rustc command which Cargo invokes (exposed by cargo clean \&\& cargo build --verbose) and execute it myself.
 
-When executing the command `cargo clean && cargo build --verbose` cargo will exit with a line similar to
+When executing the command `cargo clean \&\& cargo build --verbose` cargo will exit with a line similar to
 
 \begin{lstlisting}
 Running `rustc src/lib.rs 
